@@ -5,11 +5,13 @@ import React from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'outline';
     size?: 'sm' | 'md' | 'lg';
+    loading?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     size = 'md',
+    loading = false,
     className = '',
     children,
     ...props
@@ -19,9 +21,11 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
         <button
-            className={`btn ${variantClass} ${sizeClass} ${className}`}
+            className={`btn ${variantClass} ${sizeClass} ${className} ${loading ? 'opacity-70 pointer-events-none' : ''}`}
+            disabled={loading || props.disabled}
             {...props}
         >
+            {loading && <span className="mr-2 animate-spin">◌</span>}
             {children}
         </button>
     );
