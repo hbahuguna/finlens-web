@@ -1,0 +1,128 @@
+:root {
+  /* Colors - Light Mode */
+  --hue: 220;
+  --primary: hsl(var(--hue), 80%, 45%);
+  --primary-foreground: hsl(var(--hue), 100%, 98%);
+  --secondary: hsl(var(--hue), 20%, 96%);
+  --secondary-foreground: hsl(var(--hue), 40%, 10%);
+  --accent: hsl(150, 70%, 40%); /* Success/Profit green */
+  --accent-foreground: hsl(var(--hue), 100%, 98%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(var(--hue), 100%, 98%);
+  --background: hsl(var(--hue), 30%, 98%);
+  --foreground: hsl(var(--hue), 40%, 10%);
+  --card: hsl(var(--hue), 30%, 100%);
+  --card-foreground: hsl(var(--hue), 40%, 10%);
+  --border: hsl(var(--hue), 15%, 90%);
+  --input: hsl(var(--hue), 15%, 90%);
+  --ring: hsl(var(--hue), 80%, 45%);
+  --radius: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: hsl(var(--hue), 70%, 55%);
+    --primary-foreground: hsl(var(--hue), 40%, 10%);
+    --secondary: hsl(var(--hue), 25%, 15%);
+    --secondary-foreground: hsl(var(--hue), 15%, 90%);
+    --background: hsl(var(--hue), 40%, 4%);
+    --foreground: hsl(var(--hue), 15%, 90%);
+    --card: hsl(var(--hue), 35%, 7%);
+    --card-foreground: hsl(var(--hue), 15%, 90%);
+    --border: hsl(var(--hue), 20%, 15%);
+    --input: hsl(var(--hue), 20%, 15%);
+    --ring: hsl(var(--hue), 70%, 55%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border-color: var(--border);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: hsla(var(--hue), 30%, 100%, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsla(var(--hue), 30%, 100%, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: hsla(var(--hue), 35%, 7%, 0.7);
+    border: 1px solid hsla(var(--hue), 15%, 90%, 0.1);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Premium Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px hsla(var(--hue), 80%, 45%, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.btn-secondary:hover {
+  background-color: hsla(var(--hue), 25%, 90%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-secondary:hover {
+    background-color: hsla(var(--hue), 25%, 20%);
+  }
+}
