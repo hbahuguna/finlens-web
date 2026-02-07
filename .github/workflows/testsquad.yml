@@ -14,11 +14,19 @@ on:
           - 'deepseek/deepseek-chat'
           - 'claude-3-5-sonnet-latest'
           - 'gpt-4'
-      skip_generation:
-        description: 'Skip new test generation'
+      pr_url:
+        description: 'PR URL (for manual verification)'
         required: false
-        default: false
-        type: boolean
+        default: 'https://github.com/hbahuguna/finlens-web/pull/1'
+        type: string
+      base_sha:
+        description: 'Base SHA'
+        required: false
+        type: string
+      head_sha:
+        description: 'Head SHA'
+        required: false
+        type: string
 
 jobs:
   testsquad-run:
@@ -73,14 +81,14 @@ jobs:
           echo "Listing directories relative to PWD:"
           ls -F
           testsquad run-pr \
-            --pr-url "${{ github.event.pull_request.html_url }}" \
+            --pr-url "${{ github.event.pull_request.html_url || github.event.inputs.pr_url }}" \
             --product-repo ./product \
             --automation-repo ./automation \
             --use-real-fs \
             --use-real-git \
             --use-tools \
-            --base-sha ${{ github.event.pull_request.base.sha }} \
-            --head-sha ${{ github.event.pull_request.head.sha }} \
+            --base-sha ${{ github.event.pull_request.base.sha || github.event.inputs.base_sha || '6f5cc3e77c4d565a507ae5236b0df22fd347ca4c' }} \
+            --head-sha ${{ github.event.pull_request.head.sha || github.event.inputs.head_sha || github.sha }} \
             --output-dir reports \
             --report-name testsquad-report.json
 
