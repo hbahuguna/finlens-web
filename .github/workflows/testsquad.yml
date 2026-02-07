@@ -42,7 +42,7 @@ jobs:
 
       - name: Install TestSquad
         run: |
-          pip install git+https://github.com/skaparwan/testsquad.git#egg=testsquad[full]
+          pip install "testsquad[full] @ git+https://x-access-token:${{ secrets.GH_PAT }}@github.com/hbahuguna/testsquad.git"
 
       - name: Run TestSquad
         env:
