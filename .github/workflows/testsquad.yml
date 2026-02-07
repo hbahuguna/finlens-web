@@ -34,7 +34,6 @@ jobs:
         with:
           repository: hbahuguna/finlens-qa
           path: automation
-          token: ${{ secrets.GH_PAT_FOR_QA_REPO }} # Required if QA repo is private
 
       - name: Set up Python
         uses: actions/setup-python@v5
