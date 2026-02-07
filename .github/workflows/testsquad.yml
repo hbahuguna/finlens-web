@@ -8,10 +8,10 @@ on:
       model:
         description: 'LLM Model to use'
         required: true
-        default: 'deepseek/deepseek-v3.2'
+        default: 'deepseek/deepseek-chat'
         type: choice
         options:
-          - 'deepseek/deepseek-v3.2'
+          - 'deepseek/deepseek-chat'
           - 'claude-3-5-sonnet-latest'
           - 'gpt-4'
       skip_generation:
@@ -65,10 +65,13 @@ jobs:
       - name: Run TestSquad
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-v3.2' }}
+          OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-chat' }}
           TESTSQUAD_ALLOW_PR_CREATION: true
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          echo "Current working directory: $(pwd)"
+          echo "Listing directories relative to PWD:"
+          ls -F
           testsquad run-pr \
             --pr-url "${{ github.event.pull_request.html_url }}" \
             --product-repo ./product \

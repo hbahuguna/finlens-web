@@ -1,6 +1,6 @@
 'use client';
 
-// Triggering TestSquad final verification run with semantic mapping
+// Triggering GHA diagnostic run with tool logging and standard model ID
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
