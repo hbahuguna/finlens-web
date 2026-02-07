@@ -75,6 +75,7 @@ jobs:
             --automation-repo ./automation \
             --use-real-fs \
             --use-real-git \
+            --use-tools \
             --base-sha ${{ github.event.pull_request.base.sha }} \
             --head-sha ${{ github.event.pull_request.head.sha }} \
             --output-dir reports \
