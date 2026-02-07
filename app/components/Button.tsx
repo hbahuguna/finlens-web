@@ -1,6 +1,6 @@
 'use client';
 
-// Triggering TestSquad final end-to-end verification after interface fix
+// Triggering TestSquad final verification with structural and instruction fixes
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
