@@ -38,6 +38,13 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           persist-credentials: true
 
+      - name: Debug - List Files
+        run: |
+          echo "Listing product repo:"
+          ls -R product | head -n 20
+          echo "Listing automation repo:"
+          ls -R automation | head -n 20
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
