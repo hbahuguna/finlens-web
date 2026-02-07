@@ -60,6 +60,7 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-v3.2' }}
           TESTSQUAD_ALLOW_PR_CREATION: true
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           testsquad run-pr \
             --pr-url "${{ github.event.pull_request.html_url }}" \
