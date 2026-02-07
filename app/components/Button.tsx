@@ -1,6 +1,6 @@
 'use client';
 
-// Triggering TestSquad with detailed logging
+// Triggering TestSquad with schema validation fix
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
