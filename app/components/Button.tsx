@@ -1,6 +1,6 @@
 'use client';
 
-// Triggering GHA diagnostic run with tool logging and standard model ID
+// Triggering TestSquad final end-to-end verification after interface fix
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
