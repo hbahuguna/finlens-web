@@ -8,17 +8,25 @@ on:
       model:
         description: 'LLM Model to use'
         required: true
-        default: 'deepseek/deepseek-v3.2'
+        default: 'deepseek/deepseek-chat'
         type: choice
         options:
-          - 'deepseek/deepseek-v3.2'
+          - 'deepseek/deepseek-chat'
           - 'claude-3-5-sonnet-latest'
           - 'gpt-4'
-      skip_generation:
-        description: 'Skip new test generation'
+      pr_url:
+        description: 'PR URL (for manual verification)'
         required: false
-        default: false
-        type: boolean
+        default: 'https://github.com/hbahuguna/finlens-web/pull/1'
+        type: string
+      base_sha:
+        description: 'Base SHA'
+        required: false
+        type: string
+      head_sha:
+        description: 'Head SHA'
+        required: false
+        type: string
 
 jobs:
   testsquad-run:
@@ -37,6 +45,13 @@ jobs:
           path: automation
           token: ${{ secrets.GH_PAT }}
           persist-credentials: true
+
+      - name: Debug - List Files
+        run: |
+          echo "Listing product repo:"
+          ls -R product | head -n 20
+          echo "Listing automation repo:"
+          ls -R automation | head -n 20
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -58,17 +73,22 @@ jobs:
       - name: Run TestSquad
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-v3.2' }}
+          OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-chat' }}
           TESTSQUAD_ALLOW_PR_CREATION: true
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          echo "Current working directory: $(pwd)"
+          echo "Listing directories relative to PWD:"
+          ls -F
           testsquad run-pr \
-            --pr-url "${{ github.event.pull_request.html_url }}" \
+            --pr-url "${{ github.event.pull_request.html_url || github.event.inputs.pr_url }}" \
             --product-repo ./product \
             --automation-repo ./automation \
             --use-real-fs \
             --use-real-git \
-            --base-sha ${{ github.event.pull_request.base.sha }} \
-            --head-sha ${{ github.event.pull_request.head.sha }} \
+            --use-tools \
+            --base-sha ${{ github.event.pull_request.base.sha || github.event.inputs.base_sha || '6f5cc3e77c4d565a507ae5236b0df22fd347ca4c' }} \
+            --head-sha ${{ github.event.pull_request.head.sha || github.event.inputs.head_sha || github.sha }} \
             --output-dir reports \
             --report-name testsquad-report.json
 
