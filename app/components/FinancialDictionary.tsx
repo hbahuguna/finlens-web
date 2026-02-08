@@ -21,7 +21,7 @@ export default function FinancialDictionary() {
                     className="w-full p-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary outline-none transition-all"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    id="dictionary-search-v2"
+                    data-testid="dictionary-search-v3"
                 />
             </div>
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
