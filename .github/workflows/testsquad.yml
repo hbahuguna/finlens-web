@@ -43,6 +43,11 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install TestSquad
         run: |
           pip install "testsquad[full] @ git+https://x-access-token:${{ secrets.GH_PAT }}@github.com/hbahuguna/testsquad.git"
@@ -59,7 +64,9 @@ jobs:
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENAI_MODEL: ${{ github.event.inputs.model || 'deepseek/deepseek-v3.2' }}
-          TESTSQUAD_ALLOW_PR_CREATION: true
+          TESTSQUAD_ALLOW_PR_CREATION: "true"
+          TESTSQUAD_SKIP_TEST_RUNS: "true"
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           testsquad run-pr \
             --pr-url "${{ github.event.pull_request.html_url }}" \
@@ -67,6 +74,7 @@ jobs:
             --automation-repo ./automation \
             --use-real-fs \
             --use-real-git \
+            --use-tools \
             --base-sha ${{ github.event.pull_request.base.sha }} \
             --head-sha ${{ github.event.pull_request.head.sha }} \
             --output-dir reports \
