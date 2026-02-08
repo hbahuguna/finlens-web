@@ -60,6 +60,24 @@ jobs:
           # Ensure origin uses PAT for push
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/hbahuguna/finlens-qa.git
 
+      - name: Determine Base and Head SHAs
+        id: determine-shas
+        working-directory: product
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "BASE_SHA=${{ github.event.pull_request.base.sha }}" >> $GITHUB_ENV
+            echo "HEAD_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+            echo "PR_URL=${{ github.event.pull_request.html_url }}" >> $GITHUB_ENV
+          else
+            # For workflow_dispatch, compare current branch with main
+            BASE_SHA=$(git merge-base origin/main HEAD)
+            HEAD_SHA=$(git rev-parse HEAD)
+            echo "BASE_SHA=$BASE_SHA" >> $GITHUB_ENV
+            echo "HEAD_SHA=$HEAD_SHA" >> $GITHUB_ENV
+            # Construct PR URL from branch name (or use a placeholder)
+            echo "PR_URL=https://github.com/${{ github.repository }}/pull/3" >> $GITHUB_ENV
+          fi
+
       - name: Run TestSquad
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
@@ -69,14 +87,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           testsquad run-pr \
-            --pr-url "${{ github.event.pull_request.html_url }}" \
+            --pr-url "${{ env.PR_URL }}" \
             --product-repo ./product \
             --automation-repo ./automation \
             --use-real-fs \
             --use-real-git \
             --use-tools \
-            --base-sha ${{ github.event.pull_request.base.sha }} \
-            --head-sha ${{ github.event.pull_request.head.sha }} \
+            --base-sha ${{ env.BASE_SHA }} \
+            --head-sha ${{ env.HEAD_SHA }} \
             --output-dir reports \
             --report-name testsquad-report.json
 
