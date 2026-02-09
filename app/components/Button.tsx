@@ -7,6 +7,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * Core Button component for FinLens.
+ * Used for all primary actions including Auth and Article flows.
+ */
 export const Button: React.FC<ButtonProps> = ({
     variant = 'primary',
     size = 'md',
@@ -14,6 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
     children,
     ...props
 }) => {
+    const isGlass = className.includes('glass');
     const variantClass = variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : 'btn-outline';
     const sizeClass = size === 'sm' ? 'px-2 py-1 text-xs' : size === 'md' ? 'px-4 py-2' : 'px-6 py-3 text-lg';
 
