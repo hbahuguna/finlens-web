@@ -46,6 +46,15 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           persist-credentials: true
 
+      - name: Cache TestSquad State
+        uses: actions/cache@v4
+        with:
+          path: product/.testsquad/cache
+          key: testsquad-cache-${{ github.event.pull_request.number || 'manual' }}-${{ github.run_id }}
+          restore-keys: |
+            testsquad-cache-${{ github.event.pull_request.number || 'manual' }}-
+            testsquad-cache-
+
       - name: Debug - List Files
         run: |
           echo "Listing product repo:"
