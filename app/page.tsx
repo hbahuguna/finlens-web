@@ -5,6 +5,7 @@ import MarketSimulator from './components/MarketSimulator';
 import { ArticleList } from './components/Articles';
 import { AuthForm } from './components/Auth';
 import { Button } from './components/Button';
+import { FinancialChart } from './components/FinancialChart';
 
 export default function Home() {
   return (
@@ -49,6 +50,17 @@ export default function Home() {
             <MarketSimulator />
           </div>
         </div>
+
+        {/* Analytics Section */}
+        <section id="analytics" className="mb-16">
+          <div className="flex justify-between items-end mb-8">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Market Analytics</h2>
+              <p className="text-foreground/60">Real-time performance metrics and trends.</p>
+            </div>
+          </div>
+          <FinancialChart />
+        </section>
 
         {/* Articles Section */}
         <section id="articles" className="mb-16">
